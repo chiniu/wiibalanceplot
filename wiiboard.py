@@ -9,6 +9,7 @@ import sys
 import thread
 import time
 import pygame
+import datetime
 
 base = pygame.USEREVENT
 WIIBOARD_BUTTON_PRESS = base + 1
@@ -42,6 +43,10 @@ BOTTOM_LEFT = 3
 
 BLUETOOTH_NAME = "Nintendo RVL-WBC-01"
 
+current_milli_time = lambda: int(round(time.time() * 1000))
+
+
+
 
 class BoardEvent:
 	def __init__(self, topLeft,topRight,bottomLeft,bottomRight, buttonPressed, buttonReleased):
@@ -67,6 +72,8 @@ class Wiiboard:
 		self.LED = False
 		self.address = None
 		self.buttonDown = False
+
+		self.eventCNT = 0
 		for i in xrange(3):
 			self.calibration.append([])
 			for j in xrange(4):
@@ -156,6 +163,8 @@ class Wiiboard:
 		rawBR = (int(bytes[2].encode("hex"),16) << 8 ) + int(bytes[3].encode("hex"),16)
 		rawTL = (int(bytes[4].encode("hex"),16) << 8 ) + int(bytes[5].encode("hex"),16)
 		rawBL = (int(bytes[6].encode("hex"),16) << 8 ) + int(bytes[7].encode("hex"),16)
+		self.eventCNT = self.eventCNT + 1
+		print self.eventCNT , " " , current_milli_time(), " ", rawTR , " " , rawBR , " ", rawTL , " " , rawBL
 
 		topLeft = self.calcMass(rawTL, TOP_LEFT)
 		topRight = self.calcMass(rawTR, TOP_RIGHT)
@@ -209,6 +218,7 @@ class Wiiboard:
 					try:
 						pygame.event.post(pygame.event.Event(WIIBOARD_MASS, mass=self.lastEvent))
 					except:
+						print "queue overflow, clear it!"
 						pygame.event.clear()
 
 				else:

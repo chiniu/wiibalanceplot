@@ -3,7 +3,7 @@
 import wiiboard
 import pygame
 import time
-import os, math, random
+import os, math, random, sys
 from ConfigParser import ConfigParser
 
 class WeightSprite(pygame.sprite.Sprite):
@@ -92,12 +92,14 @@ if True:
 	done = False
 
 	while (not done):
-		time.sleep(0.05)
+		# time.sleep(0.05)
 		for event in pygame.event.get():
+			if (event.type == pygame.KEYDOWN) and (event.key == pygame.K_ESCAPE):
+				done = True
 			if event.type == wiiboard.WIIBOARD_MASS:
 		#		if (event.mass.totalWeight > 10):   #10kg. otherwise you would get alot of useless small events!
 				if True:
-					print "--mass event--  total weight: " + `event.mass.totalWeight` + ". top left: " + `event.mass.topLeft`
+					#print "--mass event--  total weight: " + `event.mass.totalWeight` + ". top left: " + `event.mass.topLeft`
 					weight_sprite.weight = event.mass.totalWeight
 				#etc for topright, bottomright, bottomleft. buttonpressed and buttonreleased also available but easier to use in seperate event
 					try:
