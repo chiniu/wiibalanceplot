@@ -74,6 +74,17 @@ class Wiiboard:
 		self.buttonDown = False
 
 		self.eventCNT = 0
+		self.TR = 0
+		self.TL = 0
+		self.BR = 0
+		self.BL = 0
+		self.kTR = 0
+		self.kTL = 0
+		self.kBR = 0
+		self.kBL = 0
+
+		self.K = False
+
 		for i in xrange(3):
 			self.calibration.append([])
 			for j in xrange(4):
@@ -163,13 +174,35 @@ class Wiiboard:
 		rawBR = (int(bytes[2].encode("hex"),16) << 8 ) + int(bytes[3].encode("hex"),16)
 		rawTL = (int(bytes[4].encode("hex"),16) << 8 ) + int(bytes[5].encode("hex"),16)
 		rawBL = (int(bytes[6].encode("hex"),16) << 8 ) + int(bytes[7].encode("hex"),16)
-		self.eventCNT = self.eventCNT + 1
-		print self.eventCNT , " " , current_milli_time(), " ", rawTR , " " , rawBR , " ", rawTL , " " , rawBL
 
-		topLeft = self.calcMass(rawTL, TOP_LEFT)
-		topRight = self.calcMass(rawTR, TOP_RIGHT)
-		bottomLeft = self.calcMass(rawBL, BOTTOM_LEFT)
-		bottomRight = self.calcMass(rawBR, BOTTOM_RIGHT)
+		if self.K == True:
+			self.kTR = self.kTR + rawTR
+			self.kBR = self.kBR + rawBR
+			self.kTL = self.kTL + rawTL
+			self.kBL = self.kBL + rawBL
+			self.eventCNT = self.eventCNT + 1
+			if self.eventCNT >= 1000:
+				self.calibration[0][0] = self.kTR / self.eventCNT
+				self.calibration[0][1] = self.kBR / self.eventCNT
+				self.calibration[0][2] = self.kTL / self.eventCNT
+				self.calibration[0][3] = self.kBL / self.eventCNT
+				self.K = False
+				print "Stop calibrate"
+
+		#print self.eventCNT , " " , current_milli_time(), " ", rawTR , " " , rawBR , " ", rawTL , " " , rawBL
+
+		self.TR = 0.8 * self.TR + 0.2 * rawTR
+		self.TL = 0.8 * self.TL + 0.2 * rawTL
+		self.BR = 0.8 * self.BR + 0.2 * rawBR
+		self.BL = 0.8 * self.BL + 0.2 * rawBL
+	#	topLeft = self.calcMass(rawTL, TOP_LEFT)
+	#	topRight = self.calcMass(rawTR, TOP_RIGHT)
+	#	bottomLeft = self.calcMass(rawBL, BOTTOM_LEFT)
+	#	bottomRight = self.calcMass(rawBR, BOTTOM_RIGHT)
+		topLeft = self.calcMass(self.TL, TOP_LEFT)
+		topRight = self.calcMass(self.TR, TOP_RIGHT)
+		bottomLeft = self.calcMass(self.BL, BOTTOM_LEFT)
+		bottomRight = self.calcMass(self.BR, BOTTOM_RIGHT)
 		boardEvent = BoardEvent(topLeft,topRight,bottomLeft,bottomRight,buttonPressed,buttonReleased)
 		return boardEvent
 
@@ -193,6 +226,18 @@ class Wiiboard:
 		
 	def getLED(self):
 		return self.LED
+
+	def calibrateZero(self):
+		self.kTR = 0
+		self.kTL = 0
+		self.kBR = 0
+		self.kBL = 0
+		self.K = True
+		print `self.calibration[0][0]`, " ", `self.calibration[0][1]`, " ", `self.calibration[0][2]`, " ", `self.calibration[0][3]`
+		self.eventCNT = 0
+		print "Start calibration"
+		return
+
 
 	# Thread that listens for incoming data
 	def receivethread(self):

@@ -96,6 +96,8 @@ if True:
 		for event in pygame.event.get():
 			if (event.type == pygame.KEYDOWN) and (event.key == pygame.K_ESCAPE):
 				done = True
+			if (event.type == pygame.KEYDOWN) and (event.key == pygame.K_k):
+				board.calibrateZero()
 			if event.type == wiiboard.WIIBOARD_MASS:
 		#		if (event.mass.totalWeight > 10):   #10kg. otherwise you would get alot of useless small events!
 				if True:
@@ -145,7 +147,7 @@ if True:
 
 			elif event.type == wiiboard.WIIBOARD_BUTTON_RELEASE:
 				print "Button released"
-				done = True
+				#done = True
 			
 			#Other event types:
 			#wiiboard.WIIBOARD_CONNECTED
