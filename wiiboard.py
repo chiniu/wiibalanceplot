@@ -78,12 +78,14 @@ class Wiiboard:
 		self.TL = 0
 		self.BR = 0
 		self.BL = 0
+		
 		self.kTR = 0
 		self.kTL = 0
 		self.kBR = 0
 		self.kBL = 0
-
 		self.K = False
+		
+		self.DebugMode = False
 
 		for i in xrange(3):
 			self.calibration.append([])
@@ -182,14 +184,15 @@ class Wiiboard:
 			self.kBL = self.kBL + rawBL
 			self.eventCNT = self.eventCNT + 1
 			if self.eventCNT >= 1000:
-				self.calibration[0][0] = self.kTR / self.eventCNT
-				self.calibration[0][1] = self.kBR / self.eventCNT
-				self.calibration[0][2] = self.kTL / self.eventCNT
-				self.calibration[0][3] = self.kBL / self.eventCNT
 				self.K = False
+				self.calibration[0][TOP_RIGHT] = self.kTR / self.eventCNT
+				self.calibration[0][BOTTOM_RIGHT] = self.kBR / self.eventCNT
+				self.calibration[0][TOP_LEFT] = self.kTL / self.eventCNT
+				self.calibration[0][BOTTOM_LEFT] = self.kBL / self.eventCNT
 				print "Stop calibrate"
 
-		#print self.eventCNT , " " , current_milli_time(), " ", rawTR , " " , rawBR , " ", rawTL , " " , rawBL
+		if self.DebugMode:
+			print self.eventCNT , " " , current_milli_time(), " ", rawTR , " " , rawBR , " ", rawTL , " " , rawBL
 
 		self.TR = 0.8 * self.TR + 0.2 * rawTR
 		self.TL = 0.8 * self.TL + 0.2 * rawTL
@@ -203,6 +206,8 @@ class Wiiboard:
 		topRight = self.calcMass(self.TR, TOP_RIGHT)
 		bottomLeft = self.calcMass(self.BL, BOTTOM_LEFT)
 		bottomRight = self.calcMass(self.BR, BOTTOM_RIGHT)
+		if self.DebugMode:
+			print "Mass ", `topLeft`, " ", `topRight`, " ",`bottomLeft` , " ",`bottomLeft`
 		boardEvent = BoardEvent(topLeft,topRight,bottomLeft,bottomRight,buttonPressed,buttonReleased)
 		return boardEvent
 
@@ -232,10 +237,18 @@ class Wiiboard:
 		self.kTL = 0
 		self.kBR = 0
 		self.kBL = 0
+		self.eventCNT = 0
 		self.K = True
 		print `self.calibration[0][0]`, " ", `self.calibration[0][1]`, " ", `self.calibration[0][2]`, " ", `self.calibration[0][3]`
-		self.eventCNT = 0
 		print "Start calibration"
+		return
+
+	def Debug(self)
+		self.DebugMode = !self.DebugMode
+		if self.DebugMode:
+			print "Enable debug"
+		else:
+			print "Disable debug"
 		return
 
 
