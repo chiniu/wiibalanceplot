@@ -16,11 +16,12 @@ class WeightSprite(pygame.sprite.Sprite):
 	def update(self):
 		global screen_res, sys_font_weight_fgcolour, sys_font_weight, screen_res
 		
-		if self.weight > 2:
+		#if self.weight > 2:
+		if True:
 			self.text = "%.2f" % self.weight
-		else:
-			self.text = "_.__"
-			#print "LESS THAN 2"
+		# else:
+		#	self.text = "_.__"
+			print "LESS THAN 2:", `self.weight`
 		#while len(self.text) < 4:
 		#	self.text = "0" + self.text
 			
