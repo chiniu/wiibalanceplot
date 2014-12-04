@@ -189,6 +189,7 @@ class Wiiboard:
 				self.calibration[0][BOTTOM_RIGHT] = self.kBR / self.eventCNT
 				self.calibration[0][TOP_LEFT] = self.kTL / self.eventCNT
 				self.calibration[0][BOTTOM_LEFT] = self.kBL / self.eventCNT
+				print `self.calibration[0][0]`, " ", `self.calibration[0][1]`, " ", `self.calibration[0][2]`, " ", `self.calibration[0][3]`
 				print "Stop calibrate"
 
 		if self.DebugMode:
@@ -239,7 +240,6 @@ class Wiiboard:
 		self.kBL = 0
 		self.eventCNT = 0
 		self.K = True
-		print `self.calibration[0][0]`, " ", `self.calibration[0][1]`, " ", `self.calibration[0][2]`, " ", `self.calibration[0][3]`
 		print "Start calibration"
 		return
 
@@ -297,6 +297,9 @@ class Wiiboard:
 			for i in xrange(4):
 				self.calibration[2][i] = (int(bytes[index].encode("hex"),16) << 8 ) + int(bytes[index+1].encode("hex"),16)
 				index += 2
+		print "Calibration vaule: TR, BR, TL, BL"
+		print `self.calibration[0][0]`, " ", `self.calibration[0][1]`, " ", `self.calibration[0][2]`, " ", `self.calibration[0][3]`
+		
 
 	# Send <data> to the Wiiboard
 	# <data> should be an array of strings, each string representing a single hex byte
