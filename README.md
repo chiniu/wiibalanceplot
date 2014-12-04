@@ -1,9 +1,9 @@
-wiiblanceplot
+wiibalanceplot
 =============
 
 What is this
 ------------
-Use wii blance board to track barycentre and draw on display.
+Use wii balance board to track barycentre and draw on display.
 Combine below two 
 
 * GUI [scalesgui.py](http://abstrakraft.org/cwiid/ticket/63)
@@ -20,7 +20,7 @@ Requirements
 Usage
 -----
  
-    ./blanceplot.py
+    ./balanceplot.py
 
 Filiter for AD convert
 -------
