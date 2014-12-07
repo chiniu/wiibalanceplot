@@ -245,8 +245,8 @@ class Wiiboard:
 		print "Start calibration"
 		return
 
-	def Debug(self)
-		self.DebugMode = !self.DebugMode
+	def Debug(self):
+		self.DebugMode = not(self.DebugMode)
 		if self.DebugMode:
 			print "Enable debug"
 		else:

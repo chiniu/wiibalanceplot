@@ -100,7 +100,7 @@ if True:
 			if (event.type == pygame.KEYDOWN) and (event.key == pygame.K_k):
 				board.calibrateZero()
 			if (event.type == pygame.KEYDOWN) and (event.key == pygame.K_d):
-				board.debug()
+				board.Debug()
 			if event.type == wiiboard.WIIBOARD_MASS:
 		#		if (event.mass.totalWeight > 10):   #10kg. otherwise you would get alot of useless small events!
 				if True:
