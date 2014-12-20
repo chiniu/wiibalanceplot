@@ -10,6 +10,9 @@ Combine below two
 
 * BT communication use [wiiboard-simple](https://code.google.com/p/wiiboard-simple/)
 
+* [Demo](http://youtu.be/aGMRtyorRDs)
+
+
 Requirements
 -----------
 * python-pygame
