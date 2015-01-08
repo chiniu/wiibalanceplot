@@ -201,14 +201,17 @@ class Wiiboard:
 		self.TL = 0.8 * self.TL + 0.2 * rawTL
 		self.BR = 0.8 * self.BR + 0.2 * rawBR
 		self.BL = 0.8 * self.BL + 0.2 * rawBL
-	#	topLeft = self.calcMass(rawTL, TOP_LEFT)
-	#	topRight = self.calcMass(rawTR, TOP_RIGHT)
-	#	bottomLeft = self.calcMass(rawBL, BOTTOM_LEFT)
-	#	bottomRight = self.calcMass(rawBR, BOTTOM_RIGHT)
-		topLeft = self.calcMass(self.TL, TOP_LEFT)
-		topRight = self.calcMass(self.TR, TOP_RIGHT)
-		bottomLeft = self.calcMass(self.BL, BOTTOM_LEFT)
-		bottomRight = self.calcMass(self.BR, BOTTOM_RIGHT)
+		if True:
+			topLeft = self.calcMass(rawTL, TOP_LEFT)
+			topRight = self.calcMass(rawTR, TOP_RIGHT)
+			bottomLeft = self.calcMass(rawBL, BOTTOM_LEFT)
+			bottomRight = self.calcMass(rawBR, BOTTOM_RIGHT)
+		else:
+			topLeft = self.calcMass(self.TL, TOP_LEFT)
+			topRight = self.calcMass(self.TR, TOP_RIGHT)
+			bottomLeft = self.calcMass(self.BL, BOTTOM_LEFT)
+			bottomRight = self.calcMass(self.BR, BOTTOM_RIGHT)
+
 		if self.DebugMode:
 			print "Mass ", `topLeft`, " ", `topRight`, " ",`bottomLeft` , " ",`bottomLeft`
 		boardEvent = BoardEvent(topLeft,topRight,bottomLeft,bottomRight,buttonPressed,buttonReleased)

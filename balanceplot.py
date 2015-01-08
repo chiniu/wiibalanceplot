@@ -21,7 +21,7 @@ class WeightSprite(pygame.sprite.Sprite):
 			self.text = "%.2f" % self.weight
 		# else:
 		#	self.text = "_.__"
-			print "LESS THAN 2:", `self.weight`
+		#	print "LESS THAN 2:", `self.weight`
 		#while len(self.text) < 4:
 		#	self.text = "0" + self.text
 			
@@ -145,8 +145,8 @@ if True:
 					pygame.time.wait(refresh_delay)	
 
 				if True:
-					print "--mass event--  total weight: " + `event.mass.totalWeight`
-					print "TR: " + `event.mass.topRight` + " BR: " + `event.mass.bottomRight` + " TL: " + `event.mass.topLeft` + " BL: " + `event.mass.bottomLeft`
+					#print "--mass event--  total weight: " + `event.mass.totalWeight`
+					#print "TR: " + `event.mass.topRight` + " BR: " + `event.mass.bottomRight` + " TL: " + `event.mass.topLeft` + " BL: " + `event.mass.bottomLeft`
 					weight_sprite.weight = event.mass.totalWeight
 					try:
 						if event.mass.totalWeight < 3:
@@ -159,8 +159,16 @@ if True:
 							x2 = (float(event.mass.topRight + event.mass.bottomRight) / float(event.mass.totalWeight * 2))
 							y1 = (float(event.mass.topRight + event.mass.topLeft) / float(event.mass.totalWeight * 2))
 							y2 = (float(event.mass.bottomRight + event.mass.bottomLeft) / float(event.mass.totalWeight * 2))
+					except:
+							x1 = 0.
+							x2 = 0.
+							y1 = 0.
+							y2 = 0.
 
 					screen.fill(bgcolour) # blank the screen.
+
+					x0 = screen_res[0]/2
+					y0 = screen_res[1]/2
 	
 					# line up the lines
 					pygame.draw.line(screen, (0,0,255), (screen_res[0]/2,0), (screen_res[0]/2,screen_res[1]), 2)
@@ -172,14 +180,14 @@ if True:
 	
 					xpos1 = (x1 * (screen_res[0]/2)) + (screen_res[0]/2)
 					ypos1 = (y1 * (screen_res[1]/2)) + (screen_res[1]/2)
-					pygame.draw.circle(screen, (255,0,0), (int(xpos1), 0), 5)
-					pygame.draw.circle(screen, (255,0,0), (0, int(ypos1)), 5)
+					pygame.draw.circle(screen, (255,0,0), (int(xpos1), y0), 5)
+					pygame.draw.circle(screen, (255,0,0), (x0, int(ypos1)), 5)
 					xpos2 = -(x2 * (screen_res[0]/2)) + (screen_res[0]/2)
 					ypos2 = -(y2 * (screen_res[1]/2)) + (screen_res[1]/2)
-					pygame.draw.circle(screen, (255,0,0), (int(xpos2), 0), 5)
-					pygame.draw.circle(screen, (255,0,0), (0, int(ypos2)), 5)
+					pygame.draw.circle(screen, (255,0,0), (int(xpos2), y0), 5)
+					pygame.draw.circle(screen, (255,0,0), (x0, int(ypos2)), 5)
 					
-					pygame.draw.polygon(screen, (0,0,255), ( (int(xpos1), 0), (0, int(ypos1)), (int(xpos2), 0), (0, int(ypos2))), 2 )
+					pygame.draw.polygon(screen, (0,255,0), ( (int(xpos1), y0), (x0, int(ypos1)), (int(xpos2), y0), (x0, int(ypos2))), 2 )
 					
 					
 					pygame.display.flip()
